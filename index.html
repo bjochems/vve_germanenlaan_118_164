@@ -117,25 +117,35 @@ nav{display:flex;gap:8px;padding:1.25rem 1.25rem 0;flex-wrap:wrap}
 
 <div id="contact" class="section">
   <p class="section-title">Contact met het bestuur</p>
-  <div class="form-group"><label>Uw naam</label><input type="text" placeholder="Voor- en achternaam"/></div>
-  <div class="form-group"><label>Appartementnummer</label><input type="text" placeholder="Bijv. 132"/></div>
-  <div class="form-group"><label>E-mailadres</label><input type="email" placeholder="uwmail@voorbeeld.nl"/></div>
-  <div class="form-group"><label>Onderwerp</label><select><option value="">Selecteer een onderwerp</option><option>Vergadering / ALV</option><option>Servicekosten</option><option>Huishoudelijk reglement</option><option>Overig</option></select></div>
-  <div class="form-group"><label>Uw bericht</label><textarea placeholder="Beschrijf uw vraag of opmerking..."></textarea></div>
-  <button class="submit-btn" onclick="submitForm('contact')">Verstuur bericht</button>
+  <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+    <input type="hidden" name="access_key" value="15fd64bc-b692-4747-b2b2-80b773aa1347"/>
+    <input type="hidden" name="subject" value="VvE Germanenlaan - Bericht van bewoner"/>
+    <input type="hidden" name="redirect" value="false"/>
+    <div class="form-group"><label>Uw naam</label><input type="text" name="naam" placeholder="Voor- en achternaam" required/></div>
+    <div class="form-group"><label>Appartementnummer</label><input type="text" name="appartement" placeholder="Bijv. 132" required/></div>
+    <div class="form-group"><label>E-mailadres</label><input type="email" name="email" placeholder="uwmail@voorbeeld.nl" required/></div>
+    <div class="form-group"><label>Onderwerp</label><select name="onderwerp"><option value="">Selecteer een onderwerp</option><option>Vergadering / ALV</option><option>Servicekosten</option><option>Huishoudelijk reglement</option><option>Overig</option></select></div>
+    <div class="form-group"><label>Uw bericht</label><textarea name="bericht" placeholder="Beschrijf uw vraag of opmerking..." required></textarea></div>
+    <button type="submit" class="submit-btn">Verstuur bericht</button>
+  </form>
   <div id="contact-success" class="success-msg">Uw bericht is verstuurd. Het bestuur neemt zo spoedig mogelijk contact met u op.</div>
 </div>
 
 <div id="melding" class="section">
   <p class="section-title">Melding indienen bij Vastgoedbeheer Keizer</p>
   <div class="beheer-info"><p><strong>Vastgoedbeheer Keizer</strong> is de officiële VvE-beheerder. Meldingen over onderhoud, reparaties of klachten kunt u via dit formulier indienen.</p></div>
-  <div class="form-group"><label>Uw naam</label><input type="text" placeholder="Voor- en achternaam"/></div>
-  <div class="form-group"><label>Appartementnummer</label><input type="text" placeholder="Bijv. 132"/></div>
-  <div class="form-group"><label>E-mailadres</label><input type="email" placeholder="uwmail@voorbeeld.nl"/></div>
-  <div class="form-group"><label>Telefoonnummer</label><input type="tel" placeholder="06-12345678"/></div>
-  <div class="form-group"><label>Soort melding</label><select><option value="">Selecteer een categorie</option><option>Onderhoud / reparatie gemeenschappelijke ruimte</option><option>Lift</option><option>Cv / verwarming</option><option>Waterlekkage</option><option>Verlichting</option><option>Overig technisch</option><option>Overige melding</option></select></div>
-  <div class="form-group"><label>Omschrijving</label><textarea placeholder="Beschrijf het probleem zo duidelijk mogelijk. Vermeld ook de locatie indien van toepassing..."></textarea></div>
-  <button class="submit-btn" onclick="submitForm('melding')">Melding versturen</button>
+  <form id="melding-form" action="https://api.web3forms.com/submit" method="POST">
+    <input type="hidden" name="access_key" value="15fd64bc-b692-4747-b2b2-80b773aa1347"/>
+    <input type="hidden" name="subject" value="VvE Germanenlaan - Nieuwe melding bewoner"/>
+    <input type="hidden" name="redirect" value="false"/>
+    <div class="form-group"><label>Uw naam</label><input type="text" name="naam" placeholder="Voor- en achternaam" required/></div>
+    <div class="form-group"><label>Appartementnummer</label><input type="text" name="appartement" placeholder="Bijv. 132" required/></div>
+    <div class="form-group"><label>E-mailadres</label><input type="email" name="email" placeholder="uwmail@voorbeeld.nl" required/></div>
+    <div class="form-group"><label>Telefoonnummer</label><input type="tel" name="telefoon" placeholder="06-12345678"/></div>
+    <div class="form-group"><label>Soort melding</label><select name="soort_melding"><option value="">Selecteer een categorie</option><option>Onderhoud / reparatie gemeenschappelijke ruimte</option><option>Lift</option><option>Cv / verwarming</option><option>Waterlekkage</option><option>Verlichting</option><option>Overig technisch</option><option>Overige melding</option></select></div>
+    <div class="form-group"><label>Omschrijving</label><textarea name="omschrijving" placeholder="Beschrijf het probleem zo duidelijk mogelijk. Vermeld ook de locatie indien van toepassing..." required></textarea></div>
+    <button type="submit" class="submit-btn">Melding versturen</button>
+  </form>
   <div id="melding-success" class="success-msg">Uw melding is ontvangen. Vastgoedbeheer Keizer zal uw melding zo snel mogelijk in behandeling nemen.</div>
 </div>
 
@@ -146,7 +156,38 @@ var cur=0;
 function goSlide(n){cur=n;document.getElementById('slides').style.transform='translateX(-'+(n*50)+'%)';document.querySelectorAll('.dot').forEach(function(d,i){d.classList.toggle('active',i===n);});}
 setInterval(function(){goSlide(cur===0?1:0);},5000);
 function showSection(id,btn){document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active');});document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('active');});document.getElementById(id).classList.add('active');btn.classList.add('active');}
-function submitForm(type){var el=document.getElementById(type+'-success');el.classList.add('show');setTimeout(function(){el.classList.remove('show');},5000);}
+
+function handleFormSubmit(formId, successId) {
+  var form = document.getElementById(formId);
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var btn = form.querySelector('button[type=submit]');
+    btn.disabled = true;
+    btn.textContent = 'Versturen...';
+    var data = new FormData(form);
+    fetch('https://api.web3forms.com/submit', {method:'POST', body: data})
+      .then(function(r){return r.json();})
+      .then(function(res){
+        if(res.success){
+          var el = document.getElementById(successId);
+          el.classList.add('show');
+          form.reset();
+          setTimeout(function(){el.classList.remove('show');}, 6000);
+        } else {
+          alert('Er is iets misgegaan. Probeer het opnieuw.');
+        }
+        btn.disabled = false;
+        btn.textContent = formId === 'contact-form' ? 'Verstuur bericht' : 'Melding versturen';
+      })
+      .catch(function(){
+        alert('Er is iets misgegaan. Controleer uw internetverbinding.');
+        btn.disabled = false;
+        btn.textContent = formId === 'contact-form' ? 'Verstuur bericht' : 'Melding versturen';
+      });
+  });
+}
+handleFormSubmit('contact-form', 'contact-success');
+handleFormSubmit('melding-form', 'melding-success');
 </script>
 </body>
 </html>
